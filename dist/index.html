@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Page</title>
+    <link rel="icon" href="./icon.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Acme&family=Russo+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/font-awesome-all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/materialize-css/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/notify.min.css">
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/materialize-css/dist/js/materialize.min.js"></script>
+    <script src="/js/notify.min.js"></script>
+    <script src="/handlebars/dist/handlebars.js"></script>
+    <script src="/js/dataManager.js"></script>
+    <script src="/js/renderer.js"></script>
+  </head>
+  <body>
+    <ul id="dropdown1" class="dropdown-content">
+      <li><a id="settings" href="javascript:;">Dark Mode
+      <div class="switch">
+        <label>
+          <input type="checkbox" id="isDarkMode">
+          <span class="lever"></span>
+        </label>
+      </div>
+      </a></li>
+      <li class="divider"></li>
+      <li><a id="logout" href="javascript:;">Logout</a></li>
+    </ul>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="javascript:;" class="brand-logo"><i class="material-icons">assignment_ind</i>My Personal Page</a>
+        <ul class="right hide-on-med-and-down">
+          <li><span id="weather"></span></li>
+          <li><input id="txt_search" type="text" placeholder="Find User"></li>
+          <li><a id="btn_search" href="javascript:;"><i class="material-icons">search</i></a></li>
+          <li>
+            <a class="dropdown-trigger" href="javascript:;" data-target="dropdown1"><span id="menu_username">User</span><i class="material-icons right">person_pin</i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Modal Structures (Login / Register) -->
+    <!-- Login -->
+    <div id="login" class="modal">
+      <div class="modal-content center">
+        <h4>Login Form</h4>
+        <form id="form_login" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">person</i>
+            <input type="text" id="login_username" required pattern="[a-zA-Z0-9_-]{4,20}"
+              title="minimum 4 letters, no special chars">
+            <label for="login_username">Username</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">lock</i>
+            <input type="password" id="login_password" required pattern="[a-zA-Z0-9_-]{4,20}"
+              title="minimum 4 letters, no special chars">
+            <label for="login_password">Password</label>
+          </div>
+          <input id="btn_login" type="submit" value="Login" class="btn btn-large">
+          <br><br>
+          <a id="link_to_register" href="javascript:;">New user? Click here to register</a>
+        </form>
+      </div>
+    </div>
+    <!-- Register -->
+    <div id="register" class="modal">
+      <div class="modal-content center">
+        <h4>Register Form</h4>
+        <form id="form_register" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">person</i>
+            <input type="text" id="register_username" required pattern="[a-zA-Z0-9_-]{4,20}"
+              title="minimum 4 letters, no special chars">
+            <label for="register_username">Username</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">lock</i>
+            <input type="password" id="register_password" required pattern="[a-zA-Z0-9_-]{4,20}"
+              title="minimum 4 letters, no special chars">
+            <label for="register_password">Password</label>
+          </div>
+          <label>
+            <input id="ispublic_register" type="checkbox" class="filled-in">
+            <span id="label_public_profile">Public Profile</span>
+          </label>
+          <br><br>
+          <input id="btn_register" type="submit" value="Register" class="btn btn-large">
+          <br><br>
+          <a id="link_back_to_login" href="javascript:;">Back</a>
+        </form>
+      </div>
+    </div>
+    <!-- end of Modal Structures -->
+
+    <!-- Modal Categories -->
+    <!-- books modal -->
+    <div id="modal_add_book" class="modal">
+      <h5 class="modal-close">&#10005;</h5>
+      <div class="modal-content center">
+        <h4>Add Book</h4>
+        <hr><br>
+        <div class="input-field">
+          <i class="material-icons prefix">book</i>
+          <input type="text" id="txt_find_book" required>
+          <label for="add_book_title">Find Book</label>
+          <input id="btn_find_book" type="button" class="btn btn-medium" value="Find Book">
+        </div>
+        <hr>
+        <form id="form_modal_add_book" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">book</i>
+            <input type="text" id="add_book_title" required pattern=".{3,40}"
+              title="minimum 3 letters, no special chars">
+            <label for="add_book_title">Title</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">book</i>
+            <input type="text" id="add_book_author" required pattern="[a-zA-Z0-9 _.':,-]{3,40}"
+              title="minimum 3 letters, no special chars">
+            <label for="add_book_author">Author</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">book</i>
+            <input type="text" id="add_book_description">
+            <label for="add_book_description">Description</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">book</i>
+            <input type="text" id="add_book_thumbnail" required>
+            <label for="add_book_thumbnail">Thumbnail</label>
+          </div>
+          <br><br>
+          <input type="submit" value="Add" class="btn btn-large">
+        </form>
+      </div>
+    </div>
+    <!-- end of book modal-->
+    <!-- movie modal -->
+    <div id="modal_add_movie" class="modal">
+      <h5 class="modal-close">&#10005;</h5>
+      <div class="modal-content center">
+        <h4>Add Movie</h4>
+        <hr><br>
+        <div class="input-field">
+          <i class="material-icons prefix">movie</i>
+          <input type="text" id="txt_find_movie" required>
+          <label for="add_movie_title">Find Movie</label>
+          <input id="btn_find_movie" type="button" class="btn btn-medium" value="Find Movie">
+        </div>
+        <hr>
+        <form id="form_modal_add_movie" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="text" id="add_movie_title" required pattern=".{3,40}"
+              title="minimum 3 letters, no special chars">
+            <label for="add_movie_title">Title</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="number" id="add_movie_year" required
+              title="minimum 3 letters, no special chars">
+            <label for="add_movie_year">Year</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="text" id="add_movie_plot">
+            <label for="add_movie_plot">Plot</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="text" id="add_movie_pic">
+            <label for="add_movie_pic">Pic</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="number" id="add_movie_rate">
+            <label for="add_movie_rate">Rate</label>
+          </div>
+          <br><br>
+          <input type="submit" value="Add" class="btn btn-large">
+        </form>
+      </div>
+    </div>
+    <!-- end of movie modal -->
+    <!-- series modal -->
+    <div id="modal_add_series" class="modal">
+      <h5 class="modal-close">&#10005;</h5>
+      <div class="modal-content center">
+        <h4>Add Series</h4>
+        <hr><br>
+        <div class="input-field">
+          <i class="material-icons prefix">movie</i>
+          <input type="text" id="txt_find_series" required>
+          <label for="add_series_title">Find Movie</label>
+          <input id="btn_find_series" type="button" class="btn btn-medium" value="Find Series">
+        </div>
+        <hr>
+        <form id="form_modal_add_series" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="text" id="add_series_title" required pattern=".{3,40}"
+              title="minimum 3 letters, no special chars">
+            <label for="add_series_title">Title</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="number" id="add_series_year" required
+              title="minimum 3 letters, no special chars">
+            <label for="add_series_year">Year</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="text" id="add_series_plot">
+            <label for="add_series_plot">Plot</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="text" id="add_series_pic">
+            <label for="add_series_pic">Pic</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="number" id="add_series_rate">
+            <label for="add_series_rate">Rate</label>
+          </div>
+          <br><br>
+          <input type="submit" value="Add" class="btn btn-large">
+        </form>
+      </div>
+    </div>
+    <!-- end of series modal -->
+    <!-- links modal -->
+    <div id="modal_add_link" class="modal">
+      <h5 class="modal-close">&#10005;</h5>
+      <div class="modal-content center">
+        <h4>Add Link</h4>
+        <form id="form_modal_add_link" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">insert_link</i>
+            <input type="text" id="add_link_title" required pattern=".{3,40}" title="minimum 3 letters, no special chars">
+            <label for="add_link_title">Title</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">insert_link</i>
+            <input type="text" id="add_link" required>
+            <label for="add_link">Link</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">insert_link</i>
+            <input type="text" id="add_link_description">
+            <label for="add_link_description">Description</label>
+          </div>
+          <br><br>
+          <input id="add_link_submit" type="submit" value="Add" class="btn btn-large">
+        </form>
+      </div>
+    </div>
+    <!-- end of links modal -->
+
+    <!-- picture modal -->
+    <div id="modal_add_picture" class="modal">
+      <h5 class="modal-close">&#10005;</h5>
+      <div class="modal-content center">
+        <h4>Add Picture</h4>
+        <form id="form_modal_add_picture" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">photo</i>
+            <input type="text" id="add_picture_title" required pattern=".{3,40}" title="minimum 3 letters, no special chars">
+            <label for="add_picture_title">Title</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">photo</i>
+            <input type="text" id="add_picture" required>
+            <label for="add_picture">Photo</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">photo</i>
+            <input type="text" id="add_picture_description">
+            <label for="add_picture_description">Description</label>
+          </div>
+          <br><br>
+          <input id="add_picture_submit" type="submit" value="Add" class="btn btn-large">
+        </form>
+      </div>
+    </div>
+    <!-- end of picture modal -->
+
+    <!-- note modal -->
+    <div id="modal_add_note" class="modal">
+      <h5 class="modal-close">&#10005;</h5>
+      <div class="modal-content center">
+        <h4>Add Note</h4>
+        <form id="form_modal_add_note" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">event_note</i>
+            <input type="text" id="add_note_title" required pattern=".{2,}" title="minimum 3 letters, no special chars">
+            <label for="add_note_title">Title</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">event_note</i>
+            <input type="text" id="add_note" required pattern="[a-zA-Z0-9 _.':,-]{2,}" title="minimum 3 letters, no special chars">
+            <label for="add_note">Note</label>
+          </div>
+          <br><br>
+          <input id="add_note_submit" type="submit" value="Add" class="btn btn-large">
+        </form>
+      </div>
+    </div>
+    <!-- end of note modal -->
+
+    <!-- quote modal -->
+    <div id="modal_add_quote" class="modal">
+      <h5 class="modal-close">&#10005;</h5>
+      <div class="modal-content center">
+        <h4>Add Quote</h4>
+        <form id="form_modal_add_quote" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">format_quote</i>
+            <input type="text" id="add_quote_title" required pattern=".{3,40}" title="minimum 3 letters, no special chars">
+            <label for="add_quote_title">Quote</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">format_quote</i>
+            <input type="text" id="add_quote_author" pattern="[a-zA-Z0-9 _.':,-]{0,40}" title="no special chars">
+            <label for="add_quote_author">Author</label>
+          </div>
+          <br><br>
+          <input id="add_quote_submit" type="submit" value="Add" class="btn btn-large">
+        </form>
+      </div>
+    </div>
+    <!-- end of quote modal -->
+
+    <!-- recipe modal -->
+    <div id="modal_add_recipe" class="modal">
+      <h5 class="modal-close">&#10005;</h5>
+      <div class="modal-content center">
+        <h4>Add Recipe</h4>
+        <form id="form_modal_add_recipe" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">room_service</i>
+            <input type="text" id="add_recipe_title" required pattern=".{3,40}"
+              title="minimum 3 letters, no special chars">
+            <label for="add_recipe_title">Title</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">room_service</i>
+            <input type="text" id="add_recipe_description" required pattern="[a-zA-Z0-9 _.':,-/\]{3,40}" title="minimum 3 letters, no special chars">
+            <label for="add_recipe_description">Recipe</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">room_service</i>
+            <input type="text" id="add_recipe_photo">
+            <label for="add_recipe_photo">Photo</label>
+          </div>
+          <br><br>
+          <input id="add_photo_submit" type="submit" value="Add" class="btn btn-large">
+        </form>
+      </div>
+    </div>
+    <!-- end of recipe modal -->
+
+    <!-- restaurant modal -->
+    <div id="modal_add_restaurant" class="modal">
+      <h5 class="modal-close">&#10005;</h5>
+      <div class="modal-content center">
+        <h4>Add Restaurant</h4>
+        <form id="form_modal_add_restaurant" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">restaurant</i>
+            <input type="text" id="add_restaurant_title" required pattern=".{3,40}" title="minimum 3 letters, no special chars">
+            <label for="add_restaurant_title">Title</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">restaurant</i>
+            <input type="text" id="add_restaurant_description" title="minimum 3 letters, no special chars">
+            <label for="add_restaurant_description">Description</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">restaurant</i>
+            <input type="text" id="add_restaurant_photo">
+            <label for="add_restaurant_photo">Photo</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">restaurant</i>
+            <input type="text" id="add_restaurant_city" pattern="[a-zA-Z0-9 _.':,-]{0,40}" title="no special chars">
+            <label for="add_restaurant_city">City</label>
+          </div>
+          <br><br>
+          <input id="add_restaurant_submit" type="submit" value="Add" class="btn btn-large">
+        </form>
+      </div>
+    </div>
+    <!-- end of restaurant modal -->
+
+    <!-- video modal -->
+    <div id="modal_add_video" class="modal">
+      <h5 class="modal-close">&#10005;</h5>
+      <div class="modal-content center">
+        <h4>Add Video</h4>
+        <form id="form_modal_add_video" action="javascript:;">
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="text" id="add_video_title" required pattern=".{3,40}" title="minimum 3 letters, no special chars">
+            <label for="add_video_title">Title</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="text" id="add_video_description">
+            <label for="add_video_description">Description</label>
+          </div>
+          <div class="input-field">
+            <i class="material-icons prefix">movie</i>
+            <input type="text" id="add_video_link" required>
+            <label for="add_video_link">Link</label>
+          </div>
+          <br><br>
+          <input id="add_video_submit" type="submit" value="Add" class="btn btn-large">
+        </form>
+      </div>
+    </div>
+    <!-- end of video modal -->
+
+    <div id="floating_addnew_item">
+      <a class="btn-floating btn-large waves-effect waves-light pulse red"><i class="large material-icons">add</i></a>
+    </div>
+
+    <div id="navs" class="row">
+      <div class="col s2">
+        <!-- Grey navigation panel -->
+        <div class="collection">
+          <a id='books' href="javascript:;" class="collection-item menu_item active">
+            <i class="material-icons">book</i><span class="menu_item_text">Books</span>
+            <span class="new badge aquamarine" data-badge-caption="">0</span>
+          </a>
+          <a id='links' href="javascript:;" class="collection-item menu_item">
+            <i class="material-icons">insert_link</i><span class="menu_item_text">Links</span>
+            <span class="new badge aquamarine" data-badge-caption="">0</span>
+          </a>
+          <a id='movies' href="javascript:;" class="collection-item menu_item">
+            <i class="material-icons">local_movies</i><span class="menu_item_text">Movies</span>
+            <span class="new badge aquamarine" data-badge-caption="">0</span></a>
+          <a id='serieses' href="javascript:;" class="collection-item menu_item">
+            <i class="material-icons">tv</i><span class="menu_item_text">Serieses</span>
+            <span class="new badge aquamarine" data-badge-caption="">0</span></a>
+          <a id='videos' href="javascript:;" class="collection-item menu_item">
+            <i class="material-icons">movie</i><span class="menu_item_text">Videos</span>
+            <span class="new badge aquamarine" data-badge-caption="">0</span></a>
+          <a id='notes' href="javascript:;" class="collection-item menu_item">
+            <i class="material-icons">event_note</i><span class="menu_item_text">Notes</span>
+            <span class="new badge aquamarine" data-badge-caption="">0</span></a>
+          <a id='pictures' href="javascript:;" class="collection-item menu_item">
+            <i class="material-icons">photo</i><span class="menu_item_text">Pictures</span>
+            <span class="new badge aquamarine" data-badge-caption="">0</span></a>
+          <a id='quotes' href="javascript:;" class="collection-item menu_item">
+            <i class="material-icons">format_quote</i><span class="menu_item_text">Quotes</span>
+            <span class="new badge aquamarine" data-badge-caption="">0</span></a>
+          <a id='recipes' href="javascript:;" class="collection-item menu_item">
+            <i class="material-icons">room_service</i><span class="menu_item_text">Recipes</span>
+            <span class="new badge aquamarine" data-badge-caption="">0</span></a>
+          <a id='restaurants' href="javascript:;" class="collection-item menu_item">
+            <i class="material-icons">restaurant</i><span class="menu_item_text">Restaurants</span>
+            <span class="new badge aquamarine" data-badge-caption="">0</span></a>
+        </div>
+      </div>
+      <div class="col s10">
+        <div id="content"></div>
+      </div>
+    </div>
+
+    <!-- BEGINNING OF HANDLEBARS -->
+    <!-- BOOK SCRIPT -->
+    <script id="books-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <div data-id='{{this._id}}' class='book'>
+          <div class="col s2 m2">
+            <div class="card">
+              <div class="card-image">
+                <img src='{{this.thumbnail}}'>
+                <a class="btn-floating halfway-fab waves-effect waves-light red remove-item"><i class="material-icons">remove</i></a>
+              </div>
+              <div class="card-content">
+                <b>
+                  <p>{{this.title}}</p>
+                </b>
+                <p class="description">{{this.description}}</p>
+                <p>-{{this.author}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </script>
+    <!-- END OF BOOK SCRIPT -->
+    <!-- LINK SCRIPT -->
+    <script id="links-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <div class='link' data-id='{{this._id}}'>
+          <div class="col s2 m2">
+            <div class="card">
+              <div class="card-image card-content">
+                <a href="{{this.link}}">{{this.title}}</a>
+                <a class="btn-floating halfway-fab waves-effect waves-light red remove-item text_floating_removeBtn"><i class="material-icons">remove</i></a>
+              </div>
+              <div class="card-content">
+                <p>{{this.description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </script>
+    <!-- END OF LINK SCRIPT -->
+    <!-- ENTERTAINMENT SCRIPT -->
+    <script id="movies-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <div class='movies' data-id='{{this._id}}'>
+          <div class="col s2 m2">
+            <div class="card">
+              <div class="card-image">
+                <img src='{{this.pic}}' onerror="this.src='/images/broken_link.png'">
+                <a class="btn-floating halfway-fab waves-effect waves-light red remove-item"><i class="material-icons">remove</i></a>
+              </div>
+              <div class="card-content">
+                <b>
+                  <p>{{this.title}}</p>
+                </b>
+                <p>{{this.plot}}</p>
+                <p>{{this.year}}</p>
+                <p>{{this.rate}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </script>
+    <!-- END OF ENTERTAINMENT SCRIPT -->
+    <script id="serieses-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <div class='serieses' data-id='{{this._id}}'>
+          <div class="col s2 m2">
+            <div class="card">
+              <div class="card-image">
+                <img src='{{this.pic}}' onerror="this.src='/images/broken_link.png'">
+                <a class="btn-floating halfway-fab waves-effect waves-light red remove-item"><i class="material-icons">remove</i></a>
+              </div>
+              <div class="card-content">
+                <b>
+                  <p>{{this.title}}</p>
+                </b>
+                <p>{{this.plot}}</p>
+                <p>{{this.year}}</p>
+                <p>{{this.rate}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </script>
+    <!-- END OF ENTERTAINMENT SCRIPT -->
+    <!-- NOTE SCRIPT -->
+    <script id="notes-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <div class='note' data-id='{{this._id}}'>
+          <div class="col s2 m2">
+            <div class="card">
+              <div class="card-image card-content">
+                <b>
+                  <p>{{this.title}}</p>
+                </b>
+                <a class="btn-floating halfway-fab waves-effect waves-light red remove-item text_floating_removeBtn"><i class="material-icons">remove</i></a>
+              </div>
+              <div class="card-content">
+                <p>{{this.note}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </script>
+    <!-- END OF NOTE SCRIPT -->
+    <!-- PICTURE SCRIPT -->
+    <script id="pictures-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <div class='picture' data-id='{{this._id}}'>
+          <div class="col s2 m2">
+            <div class="card">
+              <div class="card-image">
+                <img src='{{this.pic}}' onerror="this.src='/images/broken_link.png'">
+                <a class="btn-floating halfway-fab waves-effect waves-light red remove-item"><i class="material-icons">remove</i></a>
+              </div>
+              <div class="card-content">
+                <p>{{this.description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </script>
+    <!-- END OF PICTURE SCRIPT -->
+    <!-- QUOTE SCRIPT -->
+    <script id="quotes-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <div class='quote' data-id='{{this._id}}'>
+          <div class="col s2 m2">
+            <div class="card">
+              <div class="card-image card-content">
+                <p>"{{this.quote}}"</p>
+                <a class="btn-floating halfway-fab waves-effect waves-light red remove-item text_floating_removeBtn"><i class="material-icons">remove</i></a>
+              </div>
+              <div class="card-content">
+                <i><p>-{{this.author}}</p></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </script>
+    <!-- END OF QUOTE SCRIPT -->
+    <!-- RECIPE SCRIPT -->
+    <script id="recipes-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <div class='recipe' data-id='{{this._id}}'>
+          <div class="col s2 m2">
+            <div class="card">
+              <div class="card-image">
+                <img src='{{this.pic}}' onerror="this.src='/images/broken_link.png'">
+                <a class="btn-floating halfway-fab waves-effect waves-light red remove-item"><i class="material-icons">remove</i></a>
+              </div>
+              <div class="card-content">
+                <b>
+                  <p>{{this.name}}</p>
+                </b>
+                <p>{{this.description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </script>
+    <!-- END OF RECIPE SCRIPT -->
+    <!-- RESTAURANT SCRIPT -->
+    <script id="restaurants-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <div class='restaurant' data-id='{{this._id}}'>
+          <div class="col s2 m2">
+            <div class="card">
+              <div class="card-image">
+                <img src='{{this.pic}}' onerror="this.src='/images/broken_link.png'">
+                <a class="btn-floating halfway-fab waves-effect waves-light red remove-item"><i class="material-icons">remove</i></a>
+              </div>
+              <div class="card-content">
+                <b>
+                  <p>{{this.name}}</p>
+                </b>
+                <p>{{this.description}}</p>
+                <p>{{this.city}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </script>
+    <!-- END OF RESTAURANT SCRIPT -->
+    <!-- VIDEO SCRIPT -->
+    <script id="videos-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <div class='video' data-id='{{this._id}}'>
+          <div class="col s2 m2">
+            <div class="card">
+              <div class="card-image">
+                <video controls src="{{this.link}}">
+                </video>
+                <a class="btn-floating halfway-fab waves-effect waves-light red remove-item"><i class="material-icons">remove</i></a>
+              </div>
+              <div class="card-content">
+                <b>
+                  <p>{{this.title}}</p>
+                </b>
+                <p>{{this.description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </script>
+    <!-- END OF VIDEO SCRIPT -->
+    <!-- END OF HANDLEBARS -->
+
+    <footer class="page-footer">
+        <a href="https://www.facebook.com" title="Facebook" target="_blank"><img src="/images/facebook.png"></a>&nbsp;&nbsp;
+        <a href="https://www.instagram.com" title="Instagram" target="_blank"><img src="images/instagram.png"></a>&nbsp;&nbsp;
+        <a href="https://www.linkedin.com" title="LinkedIn" target="_blank"><img src="images/linkedin.png"></a>&nbsp;&nbsp;
+        <a href="https://www.twitter.com" title="Twitter" target="_blank"><img src="images/twitter.png"></a>&nbsp;&nbsp;
+        <a href="https://www.youtube.com" title="YouTube" target="_blank"><img src="images/youtube.png"></a>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    </body>
+
+</html>

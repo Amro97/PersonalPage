@@ -1,0 +1,134 @@
+#register {
+    display: none;
+}
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+#navs {
+    margin-top: 15px;
+    height: 88.2vh;
+}
+
+.brand-logo {
+    margin-left: 15px;
+    font-family: 'Acme', sans-serif;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    z-index: 2;
+}
+
+footer a {
+    margin-bottom: -450px;
+}
+
+#floating_addnew_item{
+    top: 65%;
+    left: 6.5%;
+    position: fixed;
+    z-index: 1;
+}
+
+.menu_item {
+    display: flex ! important;
+}
+
+.menu_item_text {
+    margin-left: 5px;
+    width: 100%;
+}
+
+#txt_search {
+    color: white;
+}
+
+.input-field label:active {
+    color: palegoldenrod;
+    opacity: 0.7;
+}
+
+.input-field .prefix.active {
+    color: palegoldenrod;
+}
+
+label.active {
+    color: antiquewhite !important;
+}
+
+label {
+    color: beige !important;
+}
+
+input:not([type]):focus:not([readonly]), input[type="text"]:not(.browser-default):focus:not([readonly]), input[type="password"]:not(.browser-default):focus:not([readonly]), input[type="email"]:not(.browser-default):focus:not([readonly]), input[type="url"]:not(.browser-default):focus:not([readonly]), input[type="time"]:not(.browser-default):focus:not([readonly]), input[type="date"]:not(.browser-default):focus:not([readonly]), input[type="datetime"]:not(.browser-default):focus:not([readonly]), input[type="datetime-local"]:not(.browser-default):focus:not([readonly]), input[type="tel"]:not(.browser-default):focus:not([readonly]), input[type="number"]:not(.browser-default):focus:not([readonly]), input[type="search"]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid black;
+    box-shadow: 0 0 0 0 black;
+}
+
+#txt_search::placeholder {
+    opacity: 0.7;
+    color: whitesmoke;
+}
+
+#link_to_register, #link_back_to_login, #label_public_profile {
+    color: whitesmoke;
+}
+
+#login, #register {
+    width: 30%;
+}
+
+#btn_login, #btn_register {
+    width: 40%;
+}
+
+.modal-close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.modal-content h4 {
+    font-family: 'Russo One', sans-serif !important;
+    color: honeydew;
+}
+
+.description {
+    overflow-y: scroll;
+    height: 200px;
+}
+
+.modal {
+    max-height: 80%;
+}
+
+.modal-content {
+    background-color: #757575;
+}
+
+#weather{
+    padding-right: 40px;
+}
+
+.page-footer {
+    padding-top: 5px;
+    text-align: center;
+}
+
+.text_floating_removeBtn {
+    position: relative;
+    left: 90%;
+}
+
+.card-image {
+    width: 100%;
+}
